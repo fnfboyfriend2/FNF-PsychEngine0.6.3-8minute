@@ -2546,10 +2546,12 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "saveFile", function(path:String, content:String, ?absolute:Bool = false)
 		{
 			try {
+				#if MODS_ALLOWED
 				if(!absolute)
 					File.saveContent(Paths.mods(path), content);
 				else
 					File.saveContent(path, content);
+				#end
 
 				return true;
 			} catch (e:Dynamic) {
@@ -2883,15 +2885,16 @@ class FunkinLua {
 			return true;
 		}
 
-		var foldersToCheck:Array<String> = [SUtil.getPath() + Paths.getPreloadPath('shaders/')];
+		var foldersToCheck:Array<String> = [Paths.getPreloadPath('shaders/')];
 
+		#if MODE_ALLOWED
 		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
 
 			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/shaders/'));
 
 		for(mod in Paths.getGlobalMods())
 			foldersToCheck.insert(0, Paths.mods(mod + '/shaders/'));
-		
+		#end
 		for (folder in foldersToCheck)
 		{
 			if(FileSystem.exists(folder))
