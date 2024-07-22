@@ -91,8 +91,8 @@ class WeekData {
 		weeksLoaded.clear();
 		#if MODS_ALLOWED
 		var disabledMods:Array<String> = [];
-		var modsListPath:String = SUtil.getPath() + 'modsList.txt';
-		var directories:Array<String> = [Paths.mods(), SUtil.getPath() + Paths.getPreloadPath()];
+		var modsListPath:String = 'modsList.txt';
+		var directories:Array<String> = [Paths.mods(), Paths.getPreloadPath()];
 		var originalLength:Int = directories.length;
 		if(FileSystem.exists(modsListPath))
 		{
@@ -246,22 +246,5 @@ class WeekData {
 	public static function loadTheFirstEnabledMod()
 	{
 		Paths.currentModDirectory = '';
-		
-		#if MODS_ALLOWED
-		if (FileSystem.exists(SUtil.getPath() + "modsList.txt"))
-		{
-			var list:Array<String> = CoolUtil.listFromString(File.getContent(SUtil.getPath() + "modsList.txt"));
-			var foundTheTop = false;
-			for (i in list)
-			{
-				var dat = i.split("|");
-				if (dat[1] == "1" && !foundTheTop)
-				{
-					foundTheTop = true;
-					Paths.currentModDirectory = dat[0];
-				}
-			}
-		}
-		#end
 	}
 }
